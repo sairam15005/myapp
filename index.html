@@ -1,1 +1,157 @@
-<h2>this is my test junkines CI/CD</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTA Style Menu</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#000;
+}
+
+#bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6)),
+    url("https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1920");
+    background-size:cover;
+    background-position:center;
+}
+
+#menu{
+    position:absolute;
+    top:50%;
+    left:100px;
+    transform:translateY(-50%);
+    color:white;
+}
+
+#title{
+    font-size:70px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-bottom:40px;
+    text-shadow:0 0 20px #000;
+}
+
+.menu-item{
+    font-size:32px;
+    margin:12px 0;
+    padding:10px 20px;
+    width:300px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.menu-item.selected{
+    background:#ffcc00;
+    color:black;
+    transform:translateX(15px);
+    font-weight:bold;
+}
+
+#info{
+    position:absolute;
+    bottom:40px;
+    left:100px;
+    color:white;
+    font-size:18px;
+    opacity:0.8;
+}
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<div id="menu">
+    <div id="title">VICE CITY</div>
+
+    <div class="menu-item selected">Start Game</div>
+    <div class="menu-item">Load Game</div>
+    <div class="menu-item">Options</div>
+    <div class="menu-item">Credits</div>
+    <div class="menu-item">Exit</div>
+</div>
+
+<div id="info">
+    ↑ ↓ Navigate &nbsp;&nbsp; Enter Select
+</div>
+
+<script>
+const items = document.querySelectorAll(".menu-item");
+let selected = 0;
+
+function updateMenu(){
+    items.forEach((item,index)=>{
+        item.classList.toggle("selected",index===selected);
+    });
+}
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="ArrowUp"){
+        selected--;
+        if(selected<0) selected=items.length-1;
+        updateMenu();
+    }
+
+    if(e.key==="ArrowDown"){
+        selected++;
+        if(selected>=items.length) selected=0;
+        updateMenu();
+    }
+
+    if(e.key==="Enter"){
+        const option = items[selected].textContent;
+
+        switch(option){
+
+            case "Start Game":
+                alert("Starting Game...");
+                break;
+
+            case "Load Game":
+                alert("Load Game Selected");
+                break;
+
+            case "Options":
+                alert("Options Selected");
+                break;
+
+            case "Credits":
+                alert("Created with HTML, CSS & JavaScript");
+                break;
+
+            case "Exit":
+                alert("Cannot exit browser tab automatically.");
+                break;
+        }
+    }
+});
+
+items.forEach((item,index)=>{
+    item.addEventListener("click",()=>{
+        selected=index;
+        updateMenu();
+        item.dispatchEvent(
+            new KeyboardEvent("keydown",{key:"Enter"})
+        );
+        alert(item.textContent);
+    });
+});
+</script>
+
+</body>
+</html>
